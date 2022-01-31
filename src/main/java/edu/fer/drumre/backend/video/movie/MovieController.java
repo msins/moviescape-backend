@@ -83,13 +83,13 @@ public class MovieController {
   ) {
     return userService.getUserByToken(authToken)
         .flatMap(user -> movieService.getRecommendedMovies(
-                    user,
-                    OffsetBasedPageRequest.of(offset, limit)
-                )
-                .map(movieMapper::localToRemote)
-                .map(PagingResponse::create)
-                .map(ResponseEntity::ok)
-        );
+                user,
+                OffsetBasedPageRequest.of(offset, limit)
+            )
+        )
+        .map(movieMapper::localToRemote)
+        .map(PagingResponse::create)
+        .map(ResponseEntity::ok);
   }
 
   @GetMapping("details/{movieId}/{countryCode}")
@@ -103,9 +103,9 @@ public class MovieController {
                 .doOnError(error -> logger.error("Failed to track click for movie: " + movie.getUuid()))
                 .subscribe()
             )
-            .map(movieMapper::toMovieDetails)
-            .map(ResponseEntity::ok)
-        );
+        )
+        .map(movieMapper::toMovieDetails)
+        .map(ResponseEntity::ok);
   }
 
   @GetMapping("details/{movieId}")

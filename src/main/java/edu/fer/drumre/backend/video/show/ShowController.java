@@ -83,13 +83,13 @@ public class ShowController {
   ) {
     return userService.getUserByToken(authToken)
         .flatMap(user -> showService.getRecommendedShows(
-                    user,
-                    OffsetBasedPageRequest.of(offset, limit)
-                )
-                .map(showMapper::localToRemote)
-                .map(PagingResponse::create)
-                .map(ResponseEntity::ok)
-        );
+                user,
+                OffsetBasedPageRequest.of(offset, limit)
+            )
+        )
+        .map(showMapper::localToRemote)
+        .map(PagingResponse::create)
+        .map(ResponseEntity::ok);
   }
 
   @GetMapping("details/{showId}/{countryCode}")
@@ -103,9 +103,9 @@ public class ShowController {
                 .doOnError(error -> logger.error("Failed to track click for show: " + show.getUuid()))
                 .subscribe()
             )
-            .map(showMapper::toShowDetails)
-            .map(ResponseEntity::ok)
-        );
+        )
+        .map(showMapper::toShowDetails)
+        .map(ResponseEntity::ok);
   }
 
   @GetMapping("details/{showId}")
